@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.iovation.mobile.android.DevicePrint;
 import com.payfort.fortapisimulator.CustomUISample;
-import com.payfort.fortapisimulator.R;
 import com.payfort.fortapisimulator.adapters.FortParamsAdapter;
 import com.payfort.fortapisimulator.data.beans.PfFortReqRespParams;
 import com.payfort.fortapisimulator.data.constants.Constants;
@@ -28,6 +27,7 @@ import com.payfort.fortpaymentsdk.callbacks.FortCallBackManager;
 import com.payfort.fortpaymentsdk.callbacks.FortCallback;
 import com.payfort.fortpaymentsdk.callbacks.FortInterfaces;
 import com.payfort.fortpaymentsdk.domain.model.FortRequest;
+import com.payfort.forttestapp.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +42,7 @@ import static com.iovation.mobile.android.DevicePrint.getBlackbox;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = MainActivity.class.getName();
     private TextView submitToTV = null;
     private Spinner languageSpinner = null;
     private Spinner commandSpinner = null;
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString("env", mEnvironment.getSdkEnvironemt());
             bundle.putSerializable("fortRequest", getFortRequest());
-            CustomUiDialog.newInstance(bundle).show(getSupportFragmentManager(), "TAG");
+            CustomUiDialog.newInstance(bundle).show(getSupportFragmentManager(), TAG);
         });
 
     }

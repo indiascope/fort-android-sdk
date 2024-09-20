@@ -10,18 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.google.gson.Gson
-import com.payfort.fortapisimulator.R
 import com.payfort.fortpaymentsdk.callbacks.PayFortCallback
 import com.payfort.fortpaymentsdk.domain.model.FortRequest
 import com.payfort.fortpaymentsdk.utils.gone
 import com.payfort.fortpaymentsdk.utils.visible
 import com.payfort.fortpaymentsdk.views.model.PayComponents
-import kotlinx.android.synthetic.main.bottom_sheet_customui.*
+import com.payfort.forttestapp.databinding.BottomSheetCustomuiBinding
 
 class CustomUiDialog : DialogFragment(), PayFortCallback {
 
+    private var _binding: BottomSheetCustomuiBinding? = null
 
-    var gson = Gson()
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
+    private var gson = Gson()
 
     companion object {
         @JvmStatic
@@ -37,7 +41,10 @@ class CustomUiDialog : DialogFragment(), PayFortCallback {
 
         dialog?.let {
             val window = it.window
-            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
@@ -45,8 +52,10 @@ class CustomUiDialog : DialogFragment(), PayFortCallback {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.bottom_sheet_customui, container, false)
+    ): View {
+        _binding = BottomSheetCustomuiBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
 
@@ -56,15 +65,21 @@ class CustomUiDialog : DialogFragment(), PayFortCallback {
     }
 
     private fun setUpViews() {
-        val fortRequest: FortRequest = requireArguments().getSerializable("fortRequest") as FortRequest
+        val fortRequest: FortRequest =
+            requireArguments().getSerializable("fortRequest") as FortRequest
         val environment = requireArguments().getString("env", "")
-        val payComponents = PayComponents(etCardNumberView, cvvView = etCardCvv, etCardExpiry, holderNameView = cardHolderNameView)
-        btnPay.setup(environment!!, fortRequest, payComponents, this)
+        val payComponents = PayComponents(
+            binding.etCardNumberView,
+            cvvView = binding.etCardCvv,
+            binding.etCardExpiry,
+            holderNameView = binding.cardHolderNameView
+        )
+        binding.btnPay.setup(environment!!, fortRequest, payComponents, this)
     }
 
     override fun startLoading() {
         Log.e("startLoading", "startLoading")
-        progressContainer.visible()
+        binding.progressContainer.visible()
         enableFields(false)
     }
 
@@ -79,7 +94,6 @@ class CustomUiDialog : DialogFragment(), PayFortCallback {
         openResponsePage(gson.toJson(fortResponseMap))
     }
 
-
     private fun openResponsePage(responseString: String) {
         Log.e("Error", responseString)
         stopLoading()
@@ -88,19 +102,25 @@ class CustomUiDialog : DialogFragment(), PayFortCallback {
         startActivity(openResponseActivityIntent)
     }
 
-
-    fun stopLoading() {
+    private fun stopLoading() {
         Log.e("startLoading", "startLoading")
-        progressContainer.gone()
+        binding.progressContainer.gone()
         enableFields(true)
     }
 
     private fun enableFields(enableFields: Boolean) {
-        cardHolderNameView.isEnabled = enableFields
-        etCardNumberView.isEnabled = enableFields
-        etCardExpiry.isEnabled = enableFields
-        etCardCvv.isEnabled = enableFields
-        btnPay.isEnabled = enableFields
+        with(binding) {
+            cardHolderNameView.isEnabled = enableFields
+            etCardNumberView.isEnabled = enableFields
+            etCardExpiry.isEnabled = enableFields
+            etCardCvv.isEnabled = enableFields
+            btnPay.isEnabled = enableFields
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

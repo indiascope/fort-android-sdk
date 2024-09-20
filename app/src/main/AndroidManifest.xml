@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.payfort.fortapisimulator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.SimulatorApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:name">
-        <activity android:name=".CustomUISample">
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.payfort.fortapisimulator.CustomUISample">
 
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.payfort.fortapisimulator.activities.MainActivity"
             android:configChanges="locale"
-            android:windowSoftInputMode="adjustPan"
+            android:exported="true"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
 
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +29,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ResponseActivity"
+            android:name="com.payfort.fortapisimulator.activities.ResponseActivity"
             android:configChanges="locale"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

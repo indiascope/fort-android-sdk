@@ -5,17 +5,21 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.payfort.fortapisimulator.activities.CustomUiDialog
 import com.payfort.fortapisimulator.activities.ResponseActivity
 import com.payfort.fortpaymentsdk.callbacks.PayFortCallback
 import com.payfort.fortpaymentsdk.domain.model.FortRequest
 import com.payfort.fortpaymentsdk.utils.gone
 import com.payfort.fortpaymentsdk.utils.visible
 import com.payfort.fortpaymentsdk.views.model.PayComponents
-import kotlinx.android.synthetic.main.custom_ui.*
+import com.payfort.forttestapp.R
+import com.payfort.forttestapp.databinding.CustomUiBinding
+
 
 class CustomUISample : AppCompatActivity(), PayFortCallback {
-    var gson = Gson()
+
+    private lateinit var binding: CustomUiBinding
+
+    private var gson = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_ui)
@@ -23,22 +27,25 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
         val environment = intent.getStringExtra("env")
         supportActionBar?.hide()
 
+        with(binding) {
+            val payComponents = PayComponents(
+                etCardNumberView,
+                cvvView = etCardCvv,
+                etCardExpiry,
+                holderNameView = cardHolderNameView
+            )
 
-
-        val payComponents = PayComponents(etCardNumberView, cvvView = etCardCvv, etCardExpiry, holderNameView = cardHolderNameView)
-
-        btnPay.setup(environment!!, fortRequest, payComponents, this)
-        btnDirectPay.setup(environment, fortRequest, this)
-        rememberMeTB.setOnCheckedChangeListener { _, isChecked ->
-            btnPay.isRememberMeEnabled(isChecked)
+            btnPay.setup(environment!!, fortRequest, payComponents, this@CustomUISample)
+            btnDirectPay.setup(environment, fortRequest, this@CustomUISample)
+            rememberMeTB.setOnCheckedChangeListener { _, isChecked ->
+                btnPay.isRememberMeEnabled(isChecked)
+            }
         }
-
-
     }
 
     override fun startLoading() {
         Log.e("startLoading", "startLoading")
-        progressContainer.visible()
+        binding.progressContainer.visible()
         enableFields(false)
     }
 
@@ -65,20 +72,19 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
 
     fun stopLoading() {
         Log.e("startLoading", "startLoading")
-        progressContainer.gone()
+        binding.progressContainer.gone()
         enableFields(true)
     }
 
     private fun enableFields(enableFields: Boolean) {
-        cardHolderNameView.isEnabled = enableFields
-        etCardNumberView.isEnabled = enableFields
-        etCardExpiry.isEnabled = enableFields
-        etCardCvv.isEnabled = enableFields
-        btnPay.isEnabled = enableFields
+        with(binding) {
+            cardHolderNameView.isEnabled = enableFields
+            etCardNumberView.isEnabled = enableFields
+            etCardExpiry.isEnabled = enableFields
+            etCardCvv.isEnabled = enableFields
+            btnPay.isEnabled = enableFields
+        }
     }
-
-
-
 
 
 }

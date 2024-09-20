@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.payfort.fortapisimulator.R;
+import com.payfort.forttestapp.R;
 
 import java.util.ArrayList;
 import java.util.Map;

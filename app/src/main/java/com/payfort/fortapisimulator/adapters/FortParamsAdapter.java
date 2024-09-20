@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.payfort.fortapisimulator.R;
 import com.payfort.fortapisimulator.data.beans.PfFortReqRespParams;
 import com.payfort.fortapisimulator.data.constants.Constants;
+import com.payfort.forttestapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

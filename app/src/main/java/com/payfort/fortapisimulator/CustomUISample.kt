@@ -20,9 +20,12 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
     private lateinit var binding: CustomUiBinding
 
     private var gson = Gson()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.custom_ui)
+        binding = CustomUiBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         val fortRequest: FortRequest = intent.getSerializableExtra("fortRequest") as FortRequest
         val environment = intent.getStringExtra("env")
         supportActionBar?.hide()
@@ -60,7 +63,6 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
         openResponsePage(gson.toJson(fortResponseMap))
     }
 
-
     private fun openResponsePage(responseString: String) {
         Log.e("Error", responseString)
         stopLoading()
@@ -70,7 +72,7 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
     }
 
 
-    fun stopLoading() {
+    private fun stopLoading() {
         Log.e("startLoading", "startLoading")
         binding.progressContainer.gone()
         enableFields(true)
@@ -85,6 +87,4 @@ class CustomUISample : AppCompatActivity(), PayFortCallback {
             btnPay.isEnabled = enableFields
         }
     }
-
-
 }

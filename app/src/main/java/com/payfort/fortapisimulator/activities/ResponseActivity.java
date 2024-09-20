@@ -22,11 +22,11 @@ public class ResponseActivity extends Activity {
         Gson gson = new Gson();
         Map<String, String> resposneMap = gson.fromJson(respAsString, Map.class);
         ArrayList<String> dataList = new ArrayList<>();
-        for(String key: resposneMap.keySet()){
+        for (String key : resposneMap.keySet()) {
 
-            dataList.add(key+"= "+resposneMap.get(key));
+            dataList.add(key + "= " + resposneMap.get(key));
         }
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(ResponseActivity.this,R.layout.simple_list_item_1,dataList);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(ResponseActivity.this, R.layout.simple_list_item_1, dataList);
         responseLV.setAdapter(mAdapter);
     }
 }

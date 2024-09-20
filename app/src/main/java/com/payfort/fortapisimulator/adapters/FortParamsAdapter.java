@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.payfort.fortapisimulator.data.beans.PfFortReqRespParams;
 import com.payfort.fortapisimulator.data.constants.Constants;
 import com.payfort.forttestapp.R;
@@ -46,6 +48,7 @@ public class FortParamsAdapter extends ArrayAdapter<PfFortReqRespParams> {
         MutableWatcher mWatcher;
     }
 
+    @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
